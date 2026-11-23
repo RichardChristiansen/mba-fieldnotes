@@ -481,6 +481,125 @@ swotForm.addEventListener("submit", (event) => {
   updateNavigation();
 });
 
+const segmentRows = [...document.querySelectorAll(".segment-row")];
+const segmentValidation = document.querySelector("#segment-validation");
+
+function getSegmentValues(row) {
+  return {
+    letter: row.dataset.segment,
+    name: row.querySelector(".segment-name").value.trim(),
+    need: row.querySelector(".segment-need").value.trim(),
+    size: row.querySelector(".segment-size").valueAsNumber,
+    willingness: Number(row.querySelector(".segment-willingness").value),
+    ltv: row.querySelector(".segment-ltv").valueAsNumber,
+    cac: row.querySelector(".segment-cac").valueAsNumber,
+    fit: Number(row.querySelector(".segment-fit").value),
+  };
+}
+
+function formatMillions(value) {
+  if (!Number.isFinite(value)) return "—";
+  if (value >= 1000000) return `${(value / 1000000).toFixed(1)}M`;
+  if (value >= 1000) return `${(value / 1000).toFixed(1)}K`;
+  return new Intl.NumberFormat().format(value);
+}
+
+function updateSegmentation() {
+  const segments = segmentRows.map(getSegmentValues);
+  const missing = segments.find((segment) =>
+    !segment.name ||
+    !Number.isFinite(segment.size) ||
+    segment.size < 0 ||
+    !Number.isFinite(segment.ltv) ||
+    segment.ltv < 0 ||
+    !Number.isFinite(segment.cac) ||
+    segment.cac < 0
+  );
+
+  if (missing) {
+    segmentValidation.textContent = "Enter a name, estimated size, lifetime value, and acquisition cost for each segment.";
+    segmentValidation.hidden = false;
+    for (const row of segmentRows) {
+      row.querySelector(".segment-score").textContent = "—";
+    }
+    document.querySelector("#recommendation-name").textContent = "Complete the segments";
+    document.querySelector("#recommendation-copy").textContent = "Add the missing inputs to compare your target groups.";
+    document.querySelector("#recommendation-score").textContent = "—";
+    document.querySelector("#recommendation-letter").textContent = "—";
+    document.querySelector("#segment-reach").textContent = "—";
+    document.querySelector("#segment-unit-economics").textContent = "—";
+    document.querySelector("#segment-willingness-result").textContent = "—";
+    document.querySelector("#segment-fit-result").textContent = "—";
+    document.querySelector("#positioning-copy").textContent = "A positioning statement will appear after all segment inputs are complete.";
+    return;
+  }
+
+  segmentValidation.hidden = true;
+  const maxSize = Math.max(...segments.map((segment) => segment.size), 1);
+  const scored = segments.map((segment) => {
+    const sizeScore = segment.size / maxSize * 25;
+    const willingnessScore = segment.willingness / 5 * 25;
+    const economicsRatio = segment.cac > 0 ? segment.ltv / segment.cac : segment.ltv > 0 ? 5 : 0;
+    const economicsScore = Math.min(economicsRatio / 5, 1) * 25;
+    const fitScore = segment.fit / 5 * 25;
+    return {
+      ...segment,
+      economicsRatio,
+      score: Math.round(sizeScore + willingnessScore + economicsScore + fitScore),
+    };
+  });
+
+  scored.forEach((segment) => {
+    const row = segmentRows.find((candidate) => candidate.dataset.segment === segment.letter);
+    row.querySelector(".segment-score").textContent = segment.score;
+  });
+
+  const recommended = scored.sort((a, b) => b.score - a.score)[0];
+  const letterIndex = Number(recommended.letter) - 1;
+  const recommendationLetter = String.fromCharCode(65 + letterIndex);
+  document.querySelector("#recommendation-letter").textContent = recommendationLetter;
+  document.querySelector("#recommendation-name").textContent = recommended.name;
+  document.querySelector("#recommendation-score").textContent = recommended.score;
+  document.querySelector("#recommendation-copy").textContent =
+    `This segment scores strongest overall, with ${recommended.willingness}/5 willingness to pay and ${recommended.fit}/5 strategic fit.`;
+  document.querySelector("#segment-reach").textContent = formatMillions(recommended.size);
+  document.querySelector("#segment-unit-economics").textContent =
+    `${recommended.economicsRatio.toFixed(1)}×`;
+  document.querySelector("#segment-willingness-result").textContent =
+    `${recommended.willingness} / 5`;
+  document.querySelector("#segment-fit-result").textContent =
+    `${recommended.fit} / 5`;
+  document.querySelector("#positioning-title").textContent =
+    `Position to ${recommended.name.toLowerCase()}`;
+  document.querySelector("#positioning-copy").textContent =
+    `For ${recommended.name.toLowerCase()} who need ${recommended.need.toLowerCase()}, we offer a solution that addresses this need more effectively than alternatives.`;
+  updateNavigation();
+}
+
+for (const input of document.querySelectorAll(".segment-row input, .segment-row select")) {
+  input.addEventListener("input", updateSegmentation);
+  input.addEventListener("change", updateSegmentation);
+}
+
+document.querySelector("#segment-reset").addEventListener("click", () => {
+  const defaults = [
+    ["Busy professionals", "Save time on meal planning", 12000, "4", 600, 180, "3"],
+    ["Health-conscious families", "Healthy dinners without effort", 18000, "3", 720, 240, "4"],
+    ["Budget-conscious students", "Affordable convenient meals", 26000, "2", 300, 90, "2"],
+  ];
+  segmentRows.forEach((row, index) => {
+    const [name, need, size, willingness, ltv, cac, fit] = defaults[index];
+    row.querySelector(".segment-name").value = name;
+    row.querySelector(".segment-need").value = need;
+    row.querySelector(".segment-size").value = String(size);
+    row.querySelector(".segment-willingness").value = willingness;
+    row.querySelector(".segment-ltv").value = String(ltv);
+    row.querySelector(".segment-cac").value = String(cac);
+    row.querySelector(".segment-fit").value = fit;
+  });
+  updateSegmentation();
+});
+
 const fields = {
   fixedCosts: document.querySelector("#fixed-costs"),
   sellingPrice: document.querySelector("#selling-price"),
@@ -660,12 +779,13 @@ document.querySelector("#share-button").addEventListener("click", async () => {
 
 update();
 
-const navigationSections = ["tools-hub", "swot", "dupont", "tool"];
+const navigationSections = ["tools-hub", "swot", "segmentation", "dupont", "tool"];
 const navigationLinks = [...document.querySelectorAll("[data-nav-target]")];
 const currentLocation = document.querySelector("#current-location");
 const navigationLabels = {
   "tools-hub": "All tools",
   swot: "Business planning",
+  segmentation: "Marketing",
   dupont: "Finance",
   tool: "Finance",
 };
@@ -725,3 +845,4 @@ window.addEventListener("scroll", () => {
 window.addEventListener("resize", updateNavigation);
 window.addEventListener("hashchange", updateNavigation);
 updateNavigation();
+updateSegmentation();

@@ -25,7 +25,7 @@
           <a class="nav-item active" href="#tools-hub" data-nav-target="tools-hub" aria-current="page">
             <span class="nav-icon" aria-hidden="true">▦</span>
             <span>All tools</span>
-            <span class="nav-count">03</span>
+            <span class="nav-count">04</span>
           </a>
           <p class="nav-heading nav-subheading">BUSINESS PLANNING</p>
           <a class="nav-item" href="#swot" data-nav-target="swot">
@@ -41,12 +41,12 @@
             <span class="nav-icon finance-icon" aria-hidden="true">$</span>
             <span>Break-even</span>
           </a>
+          <p class="nav-heading nav-subheading">MARKETING</p>
+          <a class="nav-item" href="#segmentation" data-nav-target="segmentation">
+            <span class="nav-icon" aria-hidden="true">◎</span>
+            <span>Customer segments</span>
+          </a>
           <p class="nav-heading nav-subheading">COMING UP</p>
-          <span class="nav-item muted nav-disabled" aria-disabled="true">
-            <span class="nav-icon" aria-hidden="true">◌</span>
-            <span>Marketing</span>
-            <span class="nav-soon">SOON</span>
-          </span>
           <span class="nav-item muted nav-disabled" aria-disabled="true">
             <span class="nav-icon" aria-hidden="true">⌘</span>
             <span>Operations</span>
@@ -90,7 +90,7 @@
               <h1 id="hub-title">Learn it. <span>Put it to work.</span></h1>
               <p>Practical tools for turning business concepts into clearer decisions.</p>
             </div>
-            <div class="hub-count"><strong>03</strong><span>TOOLS TO EXPLORE</span></div>
+            <div class="hub-count"><strong>04</strong><span>TOOLS TO EXPLORE</span></div>
           </div>
           <div class="tool-directory" aria-label="Available tools">
             <a class="directory-card directory-swot" href="#swot" data-directory-link>
@@ -110,6 +110,12 @@
               <strong>Break-even analysis</strong>
               <span class="directory-description">Find the sales volume that covers your costs and explore your profit targets.</span>
               <span class="directory-footer">Interactive calculator <span aria-hidden="true">→</span></span>
+            </a>
+            <a class="directory-card directory-segments" href="#segmentation" data-directory-link>
+              <span class="directory-topline"><span class="directory-icon" aria-hidden="true">◎</span><span>MARKETING</span><span class="directory-arrow" aria-hidden="true">↗</span></span>
+              <strong>Customer segmentation</strong>
+              <span class="directory-description">Compare target groups and choose the segment with the strongest fit.</span>
+              <span class="directory-footer">Target selection canvas <span aria-hidden="true">→</span></span>
             </a>
           </div>
           <div class="hub-note"><span class="hub-note-dot"></span> Your working space is private. Financial report files are processed locally in your browser.</div>
@@ -194,6 +200,145 @@
               </div>
               <p class="swot-caveat"><span aria-hidden="true">ⓘ</span> Treat these as hypotheses to validate with customers and market research—not confirmed facts about your market.</p>
             </section>
+          </div>
+        </section>
+
+        <section class="segmentation-section" id="segmentation" aria-labelledby="segmentation-title">
+          <div class="segmentation-intro">
+            <div>
+              <div class="eyebrow"><span class="eyebrow-line"></span> MARKETING · TARGETING</div>
+              <h2 id="segmentation-title">Choose the right <span>customer segment</span></h2>
+              <p class="intro-copy">Compare promising customer groups by need, size, willingness to pay, and economics.</p>
+            </div>
+            <span class="swot-label"><span aria-hidden="true">◎</span> SEGMENT SCORER</span>
+          </div>
+
+          <div class="segmentation-card">
+            <div class="segmentation-card-heading">
+              <div>
+                <span class="section-kicker">01 — DEFINE AND SCORE</span>
+                <h3>Add up to three customer segments</h3>
+              </div>
+              <button class="reset-button" type="button" id="segment-reset"><span aria-hidden="true">↺</span> Reset</button>
+            </div>
+
+            <div class="segment-table" id="segment-table">
+              <div class="segment-table-head" aria-hidden="true">
+                <span>Segment</span>
+                <span>Need / problem</span>
+                <span>Est. size</span>
+                <span>Willingness<br>to pay</span>
+                <span>Lifetime<br>value</span>
+                <span>Acquisition<br>cost</span>
+                <span>Strategic<br>fit</span>
+                <span>Score</span>
+              </div>
+              <div class="segment-row" data-segment="1">
+                <div class="segment-name-wrap">
+                  <span class="segment-index">A</span>
+                  <input class="segment-name" aria-label="Segment A name" value="Busy professionals" maxlength="40">
+                </div>
+                <input class="segment-need" aria-label="Segment A need or problem" value="Save time on meal planning" maxlength="80">
+                <input class="segment-size" aria-label="Segment A estimated size" type="number" min="0" step="100" value="12000" inputmode="numeric">
+                <select class="segment-willingness" aria-label="Segment A willingness to pay">
+                  <option value="1">1 — Low</option><option value="2">2</option><option value="3">3</option><option value="4" selected>4 — High</option><option value="5">5 — Very high</option>
+                </select>
+                <input class="segment-ltv" aria-label="Segment A lifetime value" type="number" min="0" step="100" value="600" inputmode="decimal">
+                <input class="segment-cac" aria-label="Segment A acquisition cost" type="number" min="0" step="25" value="180" inputmode="decimal">
+                <select class="segment-fit" aria-label="Segment A strategic fit">
+                  <option value="1">1 — Low</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4 — High</option><option value="5">5 — Very high</option>
+                </select>
+                <strong class="segment-score" aria-live="polite">—</strong>
+              </div>
+              <div class="segment-row" data-segment="2">
+                <div class="segment-name-wrap">
+                  <span class="segment-index">B</span>
+                  <input class="segment-name" aria-label="Segment B name" value="Health-conscious families" maxlength="40">
+                </div>
+                <input class="segment-need" aria-label="Segment B need or problem" value="Healthy dinners without effort" maxlength="80">
+                <input class="segment-size" aria-label="Segment B estimated size" type="number" min="0" step="100" value="18000" inputmode="numeric">
+                <select class="segment-willingness" aria-label="Segment B willingness to pay">
+                  <option value="1">1 — Low</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4 — High</option><option value="5">5 — Very high</option>
+                </select>
+                <input class="segment-ltv" aria-label="Segment B lifetime value" type="number" min="0" step="100" value="720" inputmode="decimal">
+                <input class="segment-cac" aria-label="Segment B acquisition cost" type="number" min="0" step="25" value="240" inputmode="decimal">
+                <select class="segment-fit" aria-label="Segment B strategic fit">
+                  <option value="1">1 — Low</option><option value="2">2</option><option value="3">3</option><option value="4" selected>4 — High</option><option value="5">5 — Very high</option>
+                </select>
+                <strong class="segment-score" aria-live="polite">—</strong>
+              </div>
+              <div class="segment-row" data-segment="3">
+                <div class="segment-name-wrap">
+                  <span class="segment-index">C</span>
+                  <input class="segment-name" aria-label="Segment C name" value="Budget-conscious students" maxlength="40">
+                </div>
+                <input class="segment-need" aria-label="Segment C need or problem" value="Affordable convenient meals" maxlength="80">
+                <input class="segment-size" aria-label="Segment C estimated size" type="number" min="0" step="100" value="26000" inputmode="numeric">
+                <select class="segment-willingness" aria-label="Segment C willingness to pay">
+                  <option value="1">1 — Low</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4 — High</option><option value="5">5 — Very high</option>
+                </select>
+                <input class="segment-ltv" aria-label="Segment C lifetime value" type="number" min="0" step="100" value="300" inputmode="decimal">
+                <input class="segment-cac" aria-label="Segment C acquisition cost" type="number" min="0" step="25" value="90" inputmode="decimal">
+                <select class="segment-fit" aria-label="Segment C strategic fit">
+                  <option value="1">1 — Low</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4 — High</option><option value="5">5 — Very high</option>
+                </select>
+                <strong class="segment-score" aria-live="polite">—</strong>
+              </div>
+            </div>
+
+            <div class="validation-message" id="segment-validation" role="alert" hidden></div>
+
+            <div class="segment-results">
+              <div class="segment-results-heading">
+                <div>
+                  <span class="section-kicker">02 — TARGETING RECOMMENDATION</span>
+                  <h3 id="segment-results-title">Your strongest segment</h3>
+                </div>
+                <span class="live-badge"><span></span> LIVE</span>
+              </div>
+              <div class="segment-recommendation">
+                <div class="recommendation-main">
+                  <span class="recommendation-letter" id="recommendation-letter">A</span>
+                  <div>
+                    <span class="recommendation-label">PRIMARY TARGET</span>
+                    <strong id="recommendation-name">Busy professionals</strong>
+                    <p id="recommendation-copy">This segment combines strong willingness to pay with an attractive customer value economics.</p>
+                  </div>
+                </div>
+                <div class="recommendation-score">
+                  <strong id="recommendation-score">—</strong>
+                  <span>ATTRACTIVENESS / 100</span>
+                </div>
+              </div>
+
+              <div class="segment-metrics">
+                <article><span>Estimated reach</span><strong id="segment-reach">—</strong><small>Potential customers</small></article>
+                <article><span>LTV : CAC</span><strong id="segment-unit-economics">—</strong><small>Lifetime value to acquisition cost</small></article>
+                <article><span>Willingness to pay</span><strong id="segment-willingness-result">—</strong><small>Relative rating</small></article>
+                <article><span>Strategic fit</span><strong id="segment-fit-result">—</strong><small>Relative rating</small></article>
+              </div>
+
+              <div class="positioning-box">
+                <div>
+                  <span class="section-kicker">VALUE POSITIONING</span>
+                  <h3 id="positioning-title">A starting positioning statement</h3>
+                </div>
+                <p id="positioning-copy"></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="segmentation-logic">
+            <div>
+              <span class="section-kicker">HOW THE SCORE WORKS</span>
+              <h3>One transparent starting framework.</h3>
+            </div>
+            <div class="logic-grid">
+              <span><strong>25%</strong> Estimated segment size</span>
+              <span><strong>25%</strong> Willingness to pay</span>
+              <span><strong>25%</strong> LTV-to-CAC economics</span>
+              <span><strong>25%</strong> Strategic fit</span>
+            </div>
           </div>
         </section>
 
