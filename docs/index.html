@@ -9,8 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=20261122-reset">
-    <script src="app.js?v=20261122-reset" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20261123-outreach2">
+    <script src="app.js?v=20261123-outreach" defer></script>
   </head>
   <body>
     <div class="app-shell">
@@ -42,9 +42,9 @@
             <span>Break-even</span>
           </a>
           <p class="nav-heading nav-subheading">MARKETING</p>
-          <a class="nav-item" href="#segmentation" data-nav-target="segmentation">
-            <span class="nav-icon" aria-hidden="true">◎</span>
-            <span>Customer segments</span>
+          <a class="nav-item" href="#outreach" data-nav-target="outreach">
+            <span class="nav-icon" aria-hidden="true">✉</span>
+            <span>Outreach studio</span>
           </a>
           <p class="nav-heading nav-subheading">COMING UP</p>
           <span class="nav-item muted nav-disabled" aria-disabled="true">
@@ -111,11 +111,11 @@
               <span class="directory-description">Find the sales volume that covers your costs and explore your profit targets.</span>
               <span class="directory-footer">Interactive calculator <span aria-hidden="true">→</span></span>
             </a>
-            <a class="directory-card directory-segments" href="#segmentation" data-directory-link>
-              <span class="directory-topline"><span class="directory-icon" aria-hidden="true">◎</span><span>MARKETING</span><span class="directory-arrow" aria-hidden="true">↗</span></span>
-              <strong>Customer segmentation</strong>
-              <span class="directory-description">Compare target groups and choose the segment with the strongest fit.</span>
-              <span class="directory-footer">Target selection canvas <span aria-hidden="true">→</span></span>
+            <a class="directory-card directory-segments" href="#outreach" data-directory-link>
+              <span class="directory-topline"><span class="directory-icon" aria-hidden="true">✉</span><span>MARKETING</span><span class="directory-arrow" aria-hidden="true">↗</span></span>
+              <strong>Outreach studio</strong>
+              <span class="directory-description">Import contacts, personalize messages, and create focused outreach campaigns.</span>
+              <span class="directory-footer">CSV + templates <span aria-hidden="true">→</span></span>
             </a>
           </div>
           <div class="hub-note"><span class="hub-note-dot"></span> Your working space is private. Financial report files are processed locally in your browser.</div>
@@ -203,143 +203,105 @@
           </div>
         </section>
 
-        <section class="segmentation-section" id="segmentation" aria-labelledby="segmentation-title">
-          <div class="segmentation-intro">
+        <section class="outreach-section" id="outreach" aria-labelledby="outreach-title">
+          <div class="outreach-intro">
             <div>
-              <div class="eyebrow"><span class="eyebrow-line"></span> MARKETING · TARGETING</div>
-              <h2 id="segmentation-title">Choose the right <span>customer segment</span></h2>
-              <p class="intro-copy">Compare promising customer groups by need, size, willingness to pay, and economics.</p>
+              <div class="eyebrow"><span class="eyebrow-line"></span> MARKETING · CONTACT OUTREACH</div>
+              <h2 id="outreach-title">Build outreach that <span>feels personal</span></h2>
+              <p class="intro-copy">Import contacts, organize them by audience, and customize messages with merge fields.</p>
             </div>
-            <span class="swot-label"><span aria-hidden="true">◎</span> SEGMENT SCORER</span>
+            <span class="swot-label"><span aria-hidden="true">✉</span> OUTREACH STUDIO</span>
           </div>
 
-          <div class="segmentation-card">
-            <div class="segmentation-card-heading">
-              <div>
-                <span class="section-kicker">01 — DEFINE AND SCORE</span>
-                <h3>Add up to three customer segments</h3>
+          <div class="outreach-grid">
+            <section class="outreach-card contact-card" aria-labelledby="contacts-title">
+              <div class="outreach-card-heading">
+                <div><span class="section-kicker">01 — YOUR CONTACTS</span><h3 id="contacts-title">Audience list</h3></div>
+                <div class="outreach-actions">
+                  <label class="secondary-button" for="contact-csv">Import CSV</label>
+                  <input id="contact-csv" type="file" accept=".csv,text/csv" hidden>
+                  <button class="secondary-button" type="button" id="add-contact">＋ Add</button>
+                </div>
               </div>
-              <button class="reset-button" type="button" id="segment-reset"><span aria-hidden="true">↺</span> Reset</button>
-            </div>
+              <div class="contact-toolbar">
+                <input id="contact-search" type="search" placeholder="Search name, company, or segment" aria-label="Search contacts">
+                <select id="segment-filter" aria-label="Filter by segment">
+                  <option value="">All segments</option>
+                  <option value="Prospect">Prospect</option>
+                  <option value="Customer">Customer</option>
+                  <option value="Partner">Partner</option>
+                  <option value="VIP">VIP</option>
+                </select>
+                <span id="contact-count">3 contacts</span>
+              </div>
+              <div class="contact-table-wrap">
+                <table class="contact-table">
+                  <thead><tr><th>Name</th><th>Email</th><th>Company</th><th>Segment</th><th>Interest</th><th><span class="sr-only">Actions</span></th></tr></thead>
+                  <tbody id="contact-table-body"></tbody>
+                </table>
+              </div>
+              <div class="validation-message" id="outreach-validation" role="alert" hidden></div>
+              <div class="contact-footer">
+                <span>CSV columns: <strong>name,email,company,segment,interest</strong></span>
+                <button class="text-button" type="button" id="export-contacts">Export CSV ↓</button>
+              </div>
+            </section>
 
-            <div class="segment-table" id="segment-table">
-              <div class="segment-table-head" aria-hidden="true">
-                <span>Segment</span>
-                <span>Need / problem</span>
-                <span>Est. size</span>
-                <span>Willingness<br>to pay</span>
-                <span>Lifetime<br>value</span>
-                <span>Acquisition<br>cost</span>
-                <span>Strategic<br>fit</span>
-                <span>Score</span>
+            <aside class="outreach-card template-card" aria-labelledby="template-title">
+              <div class="outreach-card-heading">
+                <div><span class="section-kicker">02 — YOUR TEMPLATE</span><h3 id="template-title">Personalize the message</h3></div>
+                <select id="template-preset" aria-label="Choose a template preset">
+                  <option value="intro">Introduction</option>
+                  <option value="followup">Follow-up</option>
+                  <option value="offer">Special offer</option>
+                  <option value="event">Event invite</option>
+                </select>
               </div>
-              <div class="segment-row" data-segment="1">
-                <div class="segment-name-wrap">
-                  <span class="segment-index">A</span>
-                  <input class="segment-name" aria-label="Segment A name" value="Busy professionals" maxlength="40">
-                </div>
-                <input class="segment-need" aria-label="Segment A need or problem" value="Save time on meal planning" maxlength="80">
-                <input class="segment-size" aria-label="Segment A estimated size" type="number" min="0" step="100" value="12000" inputmode="numeric">
-                <select class="segment-willingness" aria-label="Segment A willingness to pay">
-                  <option value="1">1 — Low</option><option value="2">2</option><option value="3">3</option><option value="4" selected>4 — High</option><option value="5">5 — Very high</option>
-                </select>
-                <input class="segment-ltv" aria-label="Segment A lifetime value" type="number" min="0" step="100" value="600" inputmode="decimal">
-                <input class="segment-cac" aria-label="Segment A acquisition cost" type="number" min="0" step="25" value="180" inputmode="decimal">
-                <select class="segment-fit" aria-label="Segment A strategic fit">
-                  <option value="1">1 — Low</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4 — High</option><option value="5">5 — Very high</option>
-                </select>
-                <strong class="segment-score" aria-live="polite">—</strong>
-              </div>
-              <div class="segment-row" data-segment="2">
-                <div class="segment-name-wrap">
-                  <span class="segment-index">B</span>
-                  <input class="segment-name" aria-label="Segment B name" value="Health-conscious families" maxlength="40">
-                </div>
-                <input class="segment-need" aria-label="Segment B need or problem" value="Healthy dinners without effort" maxlength="80">
-                <input class="segment-size" aria-label="Segment B estimated size" type="number" min="0" step="100" value="18000" inputmode="numeric">
-                <select class="segment-willingness" aria-label="Segment B willingness to pay">
-                  <option value="1">1 — Low</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4 — High</option><option value="5">5 — Very high</option>
-                </select>
-                <input class="segment-ltv" aria-label="Segment B lifetime value" type="number" min="0" step="100" value="720" inputmode="decimal">
-                <input class="segment-cac" aria-label="Segment B acquisition cost" type="number" min="0" step="25" value="240" inputmode="decimal">
-                <select class="segment-fit" aria-label="Segment B strategic fit">
-                  <option value="1">1 — Low</option><option value="2">2</option><option value="3">3</option><option value="4" selected>4 — High</option><option value="5">5 — Very high</option>
-                </select>
-                <strong class="segment-score" aria-live="polite">—</strong>
-              </div>
-              <div class="segment-row" data-segment="3">
-                <div class="segment-name-wrap">
-                  <span class="segment-index">C</span>
-                  <input class="segment-name" aria-label="Segment C name" value="Budget-conscious students" maxlength="40">
-                </div>
-                <input class="segment-need" aria-label="Segment C need or problem" value="Affordable convenient meals" maxlength="80">
-                <input class="segment-size" aria-label="Segment C estimated size" type="number" min="0" step="100" value="26000" inputmode="numeric">
-                <select class="segment-willingness" aria-label="Segment C willingness to pay">
-                  <option value="1">1 — Low</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4 — High</option><option value="5">5 — Very high</option>
-                </select>
-                <input class="segment-ltv" aria-label="Segment C lifetime value" type="number" min="0" step="100" value="300" inputmode="decimal">
-                <input class="segment-cac" aria-label="Segment C acquisition cost" type="number" min="0" step="25" value="90" inputmode="decimal">
-                <select class="segment-fit" aria-label="Segment C strategic fit">
-                  <option value="1">1 — Low</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4 — High</option><option value="5">5 — Very high</option>
-                </select>
-                <strong class="segment-score" aria-live="polite">—</strong>
-              </div>
-            </div>
+              <label class="template-field" for="subject-template">
+                <span>Subject</span>
+                <input id="subject-template" value="An idea for {{company}}">
+              </label>
+              <label class="template-field" for="body-template">
+                <span>Message</span>
+                <textarea id="body-template" rows="9">Hi {{firstName}},
 
-            <div class="validation-message" id="segment-validation" role="alert" hidden></div>
+I saw that {{company}} is working with {{interest}}. I thought you might find this useful.
 
-            <div class="segment-results">
-              <div class="segment-results-heading">
-                <div>
-                  <span class="section-kicker">02 — TARGETING RECOMMENDATION</span>
-                  <h3 id="segment-results-title">Your strongest segment</h3>
-                </div>
-                <span class="live-badge"><span></span> LIVE</span>
-              </div>
-              <div class="segment-recommendation">
-                <div class="recommendation-main">
-                  <span class="recommendation-letter" id="recommendation-letter">A</span>
-                  <div>
-                    <span class="recommendation-label">PRIMARY TARGET</span>
-                    <strong id="recommendation-name">Busy professionals</strong>
-                    <p id="recommendation-copy">This segment combines strong willingness to pay with an attractive customer value economics.</p>
-                  </div>
-                </div>
-                <div class="recommendation-score">
-                  <strong id="recommendation-score">—</strong>
-                  <span>ATTRACTIVENESS / 100</span>
-                </div>
-              </div>
+Would you be open to a short conversation?
 
-              <div class="segment-metrics">
-                <article><span>Estimated reach</span><strong id="segment-reach">—</strong><small>Potential customers</small></article>
-                <article><span>LTV : CAC</span><strong id="segment-unit-economics">—</strong><small>Lifetime value to acquisition cost</small></article>
-                <article><span>Willingness to pay</span><strong id="segment-willingness-result">—</strong><small>Relative rating</small></article>
-                <article><span>Strategic fit</span><strong id="segment-fit-result">—</strong><small>Relative rating</small></article>
+Best,
+{{senderName}}</textarea>
+              </label>
+              <div class="merge-fields" aria-label="Available merge fields">
+                <button type="button" data-merge="{{firstName}}">{{firstName}}</button>
+                <button type="button" data-merge="{{company}}">{{company}}</button>
+                <button type="button" data-merge="{{segment}}">{{segment}}</button>
+                <button type="button" data-merge="{{interest}}">{{interest}}</button>
+                <button type="button" data-merge="{{senderName}}">{{senderName}}</button>
               </div>
-
-              <div class="positioning-box">
-                <div>
-                  <span class="section-kicker">VALUE POSITIONING</span>
-                  <h3 id="positioning-title">A starting positioning statement</h3>
-                </div>
-                <p id="positioning-copy"></p>
-              </div>
-            </div>
+              <label class="template-field sender-field" for="sender-name">
+                <span>Your name</span>
+                <input id="sender-name" value="Alex">
+              </label>
+            </aside>
           </div>
 
-          <div class="segmentation-logic">
-            <div>
-              <span class="section-kicker">HOW THE SCORE WORKS</span>
-              <h3>One transparent starting framework.</h3>
+          <section class="outreach-preview">
+            <div class="outreach-card-heading">
+              <div><span class="section-kicker">03 — MESSAGE PREVIEW</span><h3>What each contact will receive</h3></div>
+              <button class="secondary-button" type="button" id="copy-message">Copy message</button>
             </div>
-            <div class="logic-grid">
-              <span><strong>25%</strong> Estimated segment size</span>
-              <span><strong>25%</strong> Willingness to pay</span>
-              <span><strong>25%</strong> LTV-to-CAC economics</span>
-              <span><strong>25%</strong> Strategic fit</span>
+            <div class="preview-grid">
+              <div class="preview-recipient">
+                <span>Preview contact</span>
+                <select id="preview-contact" aria-label="Choose a contact to preview"></select>
+              </div>
+              <div class="preview-message">
+                <strong id="preview-subject"></strong>
+                <div id="preview-body"></div>
+              </div>
             </div>
-          </div>
+          </section>
         </section>
 
         <section class="dupont-section" id="dupont" aria-labelledby="dupont-title">

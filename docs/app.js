@@ -481,127 +481,253 @@ swotForm.addEventListener("submit", (event) => {
   updateNavigation();
 });
 
-const segmentRows = [...document.querySelectorAll(".segment-row")];
-const segmentValidation = document.querySelector("#segment-validation");
+let outreachContacts = [
+  { id: 1, name: "Jordan Lee", email: "jordan@northstar.co", company: "Northstar Labs", segment: "Prospect", interest: "customer onboarding" },
+  { id: 2, name: "Priya Shah", email: "priya@greenline.com", company: "Greenline Health", segment: "Partner", interest: "employee wellness" },
+  { id: 3, name: "Marco Ruiz", email: "marco@atlasdesk.io", company: "Atlas Desk", segment: "Customer", interest: "workflow automation" },
+];
+let nextContactId = 4;
 
-function getSegmentValues(row) {
-  return {
-    letter: row.dataset.segment,
-    name: row.querySelector(".segment-name").value.trim(),
-    need: row.querySelector(".segment-need").value.trim(),
-    size: row.querySelector(".segment-size").valueAsNumber,
-    willingness: Number(row.querySelector(".segment-willingness").value),
-    ltv: row.querySelector(".segment-ltv").valueAsNumber,
-    cac: row.querySelector(".segment-cac").valueAsNumber,
-    fit: Number(row.querySelector(".segment-fit").value),
-  };
+const outreachValidation = document.querySelector("#outreach-validation");
+const contactSearch = document.querySelector("#contact-search");
+const segmentFilter = document.querySelector("#segment-filter");
+
+function escapeCsvCell(value) {
+  const text = String(value ?? "");
+  return /[",\r\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
 }
 
-function formatMillions(value) {
-  if (!Number.isFinite(value)) return "—";
-  if (value >= 1000000) return `${(value / 1000000).toFixed(1)}M`;
-  if (value >= 1000) return `${(value / 1000).toFixed(1)}K`;
-  return new Intl.NumberFormat().format(value);
+function getFilteredContacts() {
+  const query = contactSearch.value.trim().toLowerCase();
+  const segment = segmentFilter.value;
+  return outreachContacts.filter((contact) => {
+    const matchesSegment = !segment || contact.segment === segment;
+    const searchable = `${contact.name} ${contact.email} ${contact.company} ${contact.segment} ${contact.interest}`.toLowerCase();
+    return matchesSegment && (!query || searchable.includes(query));
+  });
 }
 
-function updateSegmentation() {
-  const segments = segmentRows.map(getSegmentValues);
-  const missing = segments.find((segment) =>
-    !segment.name ||
-    !Number.isFinite(segment.size) ||
-    segment.size < 0 ||
-    !Number.isFinite(segment.ltv) ||
-    segment.ltv < 0 ||
-    !Number.isFinite(segment.cac) ||
-    segment.cac < 0
-  );
+function renderContacts() {
+  const body = document.querySelector("#contact-table-body");
+  const filtered = getFilteredContacts();
+  body.replaceChildren(...filtered.map((contact) => {
+    const row = document.createElement("tr");
+    row.dataset.contactId = String(contact.id);
+    row.innerHTML = `
+      <td><input class="contact-name" value="${escapeHtml(contact.name)}" aria-label="Contact name"></td>
+      <td><input class="contact-email" value="${escapeHtml(contact.email)}" aria-label="Contact email"></td>
+      <td><input class="contact-company" value="${escapeHtml(contact.company)}" aria-label="Contact company"></td>
+      <td><select class="contact-segment" aria-label="Contact segment">
+        ${["Prospect", "Customer", "Partner", "VIP"].map((segment) =>
+          `<option value="${segment}"${contact.segment === segment ? " selected" : ""}>${segment}</option>`).join("")}
+      </select></td>
+      <td><input class="contact-interest" value="${escapeHtml(contact.interest)}" aria-label="Contact interest"></td>
+      <td><button class="delete-contact" type="button" aria-label="Delete ${escapeHtml(contact.name)}">×</button></td>`;
+    return row;
+  }));
+  document.querySelector("#contact-count").textContent =
+    `${outreachContacts.length} contact${outreachContacts.length === 1 ? "" : "s"}${filtered.length !== outreachContacts.length ? ` · ${filtered.length} shown` : ""}`;
+  updatePreviewContactOptions();
+  updateOutreachPreview();
+}
 
-  if (missing) {
-    segmentValidation.textContent = "Enter a name, estimated size, lifetime value, and acquisition cost for each segment.";
-    segmentValidation.hidden = false;
-    for (const row of segmentRows) {
-      row.querySelector(".segment-score").textContent = "—";
-    }
-    document.querySelector("#recommendation-name").textContent = "Complete the segments";
-    document.querySelector("#recommendation-copy").textContent = "Add the missing inputs to compare your target groups.";
-    document.querySelector("#recommendation-score").textContent = "—";
-    document.querySelector("#recommendation-letter").textContent = "—";
-    document.querySelector("#segment-reach").textContent = "—";
-    document.querySelector("#segment-unit-economics").textContent = "—";
-    document.querySelector("#segment-willingness-result").textContent = "—";
-    document.querySelector("#segment-fit-result").textContent = "—";
-    document.querySelector("#positioning-copy").textContent = "A positioning statement will appear after all segment inputs are complete.";
+function escapeHtml(value) {
+  return String(value ?? "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function updateContactFromRow(row) {
+  const contact = outreachContacts.find((item) => item.id === Number(row.dataset.contactId));
+  if (!contact) return;
+  contact.name = row.querySelector(".contact-name").value.trim();
+  contact.email = row.querySelector(".contact-email").value.trim();
+  contact.company = row.querySelector(".contact-company").value.trim();
+  contact.segment = row.querySelector(".contact-segment").value;
+  contact.interest = row.querySelector(".contact-interest").value.trim();
+  updatePreviewContactOptions();
+  updateOutreachPreview();
+}
+
+document.querySelector("#contact-table-body").addEventListener("input", (event) => {
+  const row = event.target.closest("tr");
+  if (row) updateContactFromRow(row);
+});
+document.querySelector("#contact-table-body").addEventListener("change", (event) => {
+  const row = event.target.closest("tr");
+  if (row) updateContactFromRow(row);
+});
+document.querySelector("#contact-table-body").addEventListener("click", (event) => {
+  const button = event.target.closest(".delete-contact");
+  if (!button) return;
+  const row = button.closest("tr");
+  outreachContacts = outreachContacts.filter((contact) => contact.id !== Number(row.dataset.contactId));
+  renderContacts();
+});
+
+document.querySelector("#add-contact").addEventListener("click", () => {
+  outreachContacts.push({
+    id: nextContactId++,
+    name: "",
+    email: "",
+    company: "",
+    segment: "Prospect",
+    interest: "",
+  });
+  renderContacts();
+  const rows = document.querySelectorAll("#contact-table-body tr");
+  const lastRow = rows[rows.length - 1];
+  lastRow?.querySelector(".contact-name")?.focus();
+});
+
+contactSearch.addEventListener("input", renderContacts);
+segmentFilter.addEventListener("change", renderContacts);
+
+document.querySelector("#contact-csv").addEventListener("change", async (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+  outreachValidation.hidden = true;
+  if (!file.name.toLowerCase().endsWith(".csv")) {
+    outreachValidation.textContent = "Choose a CSV file.";
+    outreachValidation.hidden = false;
     return;
   }
-
-  segmentValidation.hidden = true;
-  const maxSize = Math.max(...segments.map((segment) => segment.size), 1);
-  const scored = segments.map((segment) => {
-    const sizeScore = segment.size / maxSize * 25;
-    const willingnessScore = segment.willingness / 5 * 25;
-    const economicsRatio = segment.cac > 0 ? segment.ltv / segment.cac : segment.ltv > 0 ? 5 : 0;
-    const economicsScore = Math.min(economicsRatio / 5, 1) * 25;
-    const fitScore = segment.fit / 5 * 25;
-    return {
-      ...segment,
-      economicsRatio,
-      score: Math.round(sizeScore + willingnessScore + economicsScore + fitScore),
-    };
-  });
-
-  scored.forEach((segment) => {
-    const row = segmentRows.find((candidate) => candidate.dataset.segment === segment.letter);
-    row.querySelector(".segment-score").textContent = segment.score;
-  });
-
-  const recommended = scored.sort((a, b) => b.score - a.score)[0];
-  const letterIndex = Number(recommended.letter) - 1;
-  const recommendationLetter = String.fromCharCode(65 + letterIndex);
-  document.querySelector("#recommendation-letter").textContent = recommendationLetter;
-  document.querySelector("#recommendation-name").textContent = recommended.name;
-  document.querySelector("#recommendation-score").textContent = recommended.score;
-  document.querySelector("#recommendation-copy").textContent =
-    `This segment scores strongest overall, with ${recommended.willingness}/5 willingness to pay and ${recommended.fit}/5 strategic fit.`;
-  document.querySelector("#segment-reach").textContent = formatMillions(recommended.size);
-  document.querySelector("#segment-unit-economics").textContent =
-    `${recommended.economicsRatio.toFixed(1)}×`;
-  document.querySelector("#segment-willingness-result").textContent =
-    `${recommended.willingness} / 5`;
-  document.querySelector("#segment-fit-result").textContent =
-    `${recommended.fit} / 5`;
-  document.querySelector("#positioning-title").textContent =
-    `Position to ${recommended.name.toLowerCase()}`;
-  document.querySelector("#positioning-copy").textContent =
-    `For ${recommended.name.toLowerCase()} who need ${recommended.need.toLowerCase()}, we offer a solution that addresses this need more effectively than alternatives.`;
-  updateNavigation();
-}
-
-for (const input of document.querySelectorAll(".segment-row input, .segment-row select")) {
-  input.addEventListener("input", updateSegmentation);
-  input.addEventListener("change", updateSegmentation);
-}
-
-document.querySelector("#segment-reset").addEventListener("click", (event) => {
-  event.preventDefault();
-  const defaults = [
-    ["Busy professionals", "Save time on meal planning", 12000, "4", 600, 180, "3"],
-    ["Health-conscious families", "Healthy dinners without effort", 18000, "3", 720, 240, "4"],
-    ["Budget-conscious students", "Affordable convenient meals", 26000, "2", 300, 90, "2"],
-  ];
-  segmentRows.forEach((row, index) => {
-    const [name, need, size, willingness, ltv, cac, fit] = defaults[index];
-    row.querySelector(".segment-name").value = name;
-    row.querySelector(".segment-need").value = need;
-    row.querySelector(".segment-size").value = String(size);
-    row.querySelector(".segment-willingness").value = willingness;
-    row.querySelector(".segment-ltv").value = String(ltv);
-    row.querySelector(".segment-cac").value = String(cac);
-    row.querySelector(".segment-fit").value = fit;
-  });
-  for (const input of document.querySelectorAll(".segment-row input, .segment-row select")) {
-    input.dispatchEvent(new Event("change", { bubbles: true }));
+  try {
+    const rows = parseCsv(await file.text());
+    if (rows.length < 2) throw new Error("The CSV needs a header row and at least one contact.");
+    const headers = rows[0].map((header) => normalizeReportLabel(header));
+    const required = ["name", "email"];
+    if (required.some((header) => !headers.includes(header))) {
+      throw new Error("The CSV must include name and email columns.");
+    }
+    const columnIndex = (label) => headers.indexOf(normalizeReportLabel(label));
+    const imported = rows.slice(1).map((row) => ({
+      id: nextContactId++,
+      name: row[columnIndex("name")]?.trim() || "",
+      email: row[columnIndex("email")]?.trim() || "",
+      company: columnIndex("company") >= 0 ? row[columnIndex("company")]?.trim() || "" : "",
+      segment: columnIndex("segment") >= 0 ? row[columnIndex("segment")]?.trim() || "Prospect" : "Prospect",
+      interest: columnIndex("interest") >= 0 ? row[columnIndex("interest")]?.trim() || "" : "",
+    })).filter((contact) => contact.name || contact.email);
+    if (!imported.length) throw new Error("No contacts were found in the CSV.");
+    outreachContacts = imported;
+    renderContacts();
+  } catch (error) {
+    outreachValidation.textContent = error instanceof Error ? error.message : "Could not import the CSV.";
+    outreachValidation.hidden = false;
+  } finally {
+    event.target.value = "";
   }
-  updateSegmentation();
+});
+
+document.querySelector("#export-contacts").addEventListener("click", () => {
+  const lines = [
+    ["name", "email", "company", "segment", "interest"].join(","),
+    ...outreachContacts.map((contact) =>
+      [contact.name, contact.email, contact.company, contact.segment, contact.interest].map(escapeCsvCell).join(",")),
+  ];
+  const blob = new Blob([lines.join("\r\n")], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "mba-fieldnotes-contacts.csv";
+  link.click();
+  URL.revokeObjectURL(url);
+});
+
+function personalize(template, contact) {
+  const firstName = contact.name ? contact.name.split(/\s+/)[0] : "there";
+  const senderName = document.querySelector("#sender-name").value.trim() || "Alex";
+  return template
+    .replaceAll("{{firstName}}", firstName)
+    .replaceAll("{{company}}", contact.company || "your team")
+    .replaceAll("{{segment}}", contact.segment || "Prospect")
+    .replaceAll("{{interest}}", contact.interest || "your priorities")
+    .replaceAll("{{senderName}}", senderName);
+}
+
+function updatePreviewContactOptions() {
+  const select = document.querySelector("#preview-contact");
+  const previousId = select.value;
+  select.replaceChildren(...outreachContacts.map((contact) => {
+    const option = document.createElement("option");
+    option.value = String(contact.id);
+    option.textContent = contact.name
+      ? `${contact.name}${contact.company ? ` · ${contact.company}` : ""}`
+      : `Untitled contact${contact.email ? ` · ${contact.email}` : ""}`;
+    return option;
+  }));
+  if (outreachContacts.some((contact) => String(contact.id) === previousId)) {
+    select.value = previousId;
+  }
+}
+
+function updateOutreachPreview() {
+  const select = document.querySelector("#preview-contact");
+  const contact = outreachContacts.find((item) => item.id === Number(select.value)) || outreachContacts[0];
+  if (!contact) {
+    document.querySelector("#preview-subject").textContent = "Add a contact to preview";
+    document.querySelector("#preview-body").textContent = "";
+    return;
+  }
+  document.querySelector("#preview-subject").textContent =
+    personalize(document.querySelector("#subject-template").value, contact);
+  document.querySelector("#preview-body").textContent =
+    personalize(document.querySelector("#body-template").value, contact);
+}
+
+document.querySelector("#preview-contact").addEventListener("change", updateOutreachPreview);
+document.querySelector("#subject-template").addEventListener("input", updateOutreachPreview);
+document.querySelector("#body-template").addEventListener("input", updateOutreachPreview);
+document.querySelector("#sender-name").addEventListener("input", updateOutreachPreview);
+
+document.querySelectorAll(".merge-fields button").forEach((button) => {
+  button.addEventListener("click", () => {
+    const textarea = document.querySelector("#body-template");
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const value = textarea.value;
+    textarea.value = `${value.slice(0, start)}${button.dataset.merge}${value.slice(end)}`;
+    textarea.focus();
+    textarea.selectionStart = textarea.selectionEnd = start + button.dataset.merge.length;
+    updateOutreachPreview();
+  });
+});
+
+const outreachPresets = {
+  intro: {
+    subject: "An idea for {{company}}",
+    body: "Hi {{firstName}},\n\nI saw that {{company}} is working with {{interest}}. I thought you might find this useful.\n\nWould you be open to a short conversation?\n\nBest,\n{{senderName}}",
+  },
+  followup: {
+    subject: "Following up with {{company}}",
+    body: "Hi {{firstName}},\n\nI wanted to follow up after our earlier conversation about {{interest}}.\n\nWould a short call next week be useful?\n\nBest,\n{{senderName}}",
+  },
+  offer: {
+    subject: "A tailored offer for {{company}}",
+    body: "Hi {{firstName}},\n\nBased on {{company}}'s focus on {{interest}}, I put together a tailored starting option.\n\nCould I send you the details for review?\n\nBest,\n{{senderName}}",
+  },
+  event: {
+    subject: "Invitation for {{company}}",
+    body: "Hi {{firstName}},\n\nWe're hosting an event focused on {{interest}}, and I thought {{company}} might enjoy joining.\n\nWould you like me to send the details?\n\nBest,\n{{senderName}}",
+  },
+};
+
+document.querySelector("#template-preset").addEventListener("change", (event) => {
+  const preset = outreachPresets[event.target.value];
+  document.querySelector("#subject-template").value = preset.subject;
+  document.querySelector("#body-template").value = preset.body;
+  updateOutreachPreview();
+});
+
+document.querySelector("#copy-message").addEventListener("click", async (event) => {
+  const subject = document.querySelector("#preview-subject").textContent;
+  const body = document.querySelector("#preview-body").textContent;
+  try {
+    await navigator.clipboard.writeText(`Subject: ${subject}\n\n${body}`);
+    event.currentTarget.textContent = "Copied";
+    window.setTimeout(() => { event.currentTarget.textContent = "Copy message"; }, 1600);
+  } catch {
+    event.currentTarget.textContent = "Copy unavailable";
+  }
 });
 
 const fields = {
@@ -783,13 +909,13 @@ document.querySelector("#share-button").addEventListener("click", async () => {
 
 update();
 
-const navigationSections = ["tools-hub", "swot", "segmentation", "dupont", "tool"];
+const navigationSections = ["tools-hub", "swot", "outreach", "dupont", "tool"];
 const navigationLinks = [...document.querySelectorAll("[data-nav-target]")];
 const currentLocation = document.querySelector("#current-location");
 const navigationLabels = {
   "tools-hub": "All tools",
   swot: "Business planning",
-  segmentation: "Marketing",
+  outreach: "Marketing",
   dupont: "Finance",
   tool: "Finance",
 };
@@ -849,4 +975,4 @@ window.addEventListener("scroll", () => {
 window.addEventListener("resize", updateNavigation);
 window.addEventListener("hashchange", updateNavigation);
 updateNavigation();
-updateSegmentation();
+renderContacts();
