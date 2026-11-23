@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f7f4">
+    <meta name="description" content="A practical toolkit for putting MBA concepts to work.">
+    <title>MBA Fieldnotes — Practical tools for better decisions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Main navigation">
+        <a class="brand" href="#" aria-label="MBA Fieldnotes home">
+          <span class="brand-mark" aria-hidden="true">m<span>.</span></span>
+          <span class="brand-name">fieldnotes<span> / MBA toolkit</span></span>
+        </a>
+
+        <nav class="nav-group" aria-label="Tool navigation">
+          <p class="nav-heading">WORKSPACE</p>
+          <a class="nav-item active" href="#tools-hub" data-nav-target="tools-hub" aria-current="page">
+            <span class="nav-icon" aria-hidden="true">▦</span>
+            <span>All tools</span>
+            <span class="nav-count">03</span>
+          </a>
+          <p class="nav-heading nav-subheading">BUSINESS PLANNING</p>
+          <a class="nav-item" href="#swot" data-nav-target="swot">
+            <span class="nav-icon" aria-hidden="true">◈</span>
+            <span>SWOT analysis</span>
+          </a>
+          <p class="nav-heading nav-subheading">FINANCE</p>
+          <a class="nav-item" href="#dupont" data-nav-target="dupont">
+            <span class="nav-icon finance-icon" aria-hidden="true">∑</span>
+            <span>DuPont analysis</span>
+          </a>
+          <a class="nav-item" href="#tool" data-nav-target="tool">
+            <span class="nav-icon finance-icon" aria-hidden="true">$</span>
+            <span>Break-even</span>
+          </a>
+          <p class="nav-heading nav-subheading">COMING UP</p>
+          <span class="nav-item muted nav-disabled" aria-disabled="true">
+            <span class="nav-icon" aria-hidden="true">◌</span>
+            <span>Marketing</span>
+            <span class="nav-soon">SOON</span>
+          </span>
+          <span class="nav-item muted nav-disabled" aria-disabled="true">
+            <span class="nav-icon" aria-hidden="true">⌘</span>
+            <span>Operations</span>
+            <span class="nav-soon">SOON</span>
+          </span>
+          <span class="nav-item muted nav-disabled" aria-disabled="true">
+            <span class="nav-icon" aria-hidden="true">↗</span>
+            <span>Strategy</span>
+            <span class="nav-soon">SOON</span>
+          </span>
+        </nav>
+
+        <div class="sidebar-note">
+          <span class="note-spark" aria-hidden="true">✳</span>
+          <p>Good ideas are better when you can put them to work.</p>
+          <span class="note-caption">BUILT FROM THE MBA TOOLBOX</span>
+        </div>
+
+        <div class="sidebar-footer">
+          <span class="avatar" aria-hidden="true">M</span>
+          <span class="footer-label">Your learning lab</span>
+          <button class="more-button" type="button" aria-label="More options">···</button>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="breadcrumb"><span>Workspace</span><span class="crumb-slash">/</span><strong id="current-location">All tools</strong></div>
+          <div class="topbar-actions">
+            <span class="local-badge"><span aria-hidden="true"></span> YOUR PRIVATE WORKSPACE</span>
+            <button class="share-button" type="button" id="share-button">
+              <span aria-hidden="true">↗</span> Share this tool
+            </button>
+          </div>
+        </header>
+
+        <section class="tools-hub" id="tools-hub" aria-labelledby="hub-title">
+          <div class="hub-heading">
+            <div>
+              <div class="eyebrow"><span class="eyebrow-line"></span> MBA FIELDNOTES · YOUR TOOLKIT</div>
+              <h1 id="hub-title">Learn it. <span>Put it to work.</span></h1>
+              <p>Practical tools for turning business concepts into clearer decisions.</p>
+            </div>
+            <div class="hub-count"><strong>03</strong><span>TOOLS TO EXPLORE</span></div>
+          </div>
+          <div class="tool-directory" aria-label="Available tools">
+            <a class="directory-card directory-swot" href="#swot" data-directory-link>
+              <span class="directory-topline"><span class="directory-icon" aria-hidden="true">◈</span><span>BUSINESS PLANNING</span><span class="directory-arrow" aria-hidden="true">↗</span></span>
+              <strong>SWOT analysis</strong>
+              <span class="directory-description">Map the strengths, weaknesses, opportunities, and threats around your idea.</span>
+              <span class="directory-footer">Guided worksheet <span aria-hidden="true">→</span></span>
+            </a>
+            <a class="directory-card directory-dupont" href="#dupont" data-directory-link>
+              <span class="directory-topline"><span class="directory-icon" aria-hidden="true">∑</span><span>FINANCE</span><span class="directory-arrow" aria-hidden="true">↗</span></span>
+              <strong>DuPont analysis</strong>
+              <span class="directory-description">See how margin, asset efficiency, and leverage combine to shape ROE.</span>
+              <span class="directory-footer">Works with QBO CSVs <span aria-hidden="true">→</span></span>
+            </a>
+            <a class="directory-card directory-breakeven" href="#tool" data-directory-link>
+              <span class="directory-topline"><span class="directory-icon" aria-hidden="true">$</span><span>FINANCE</span><span class="directory-arrow" aria-hidden="true">↗</span></span>
+              <strong>Break-even analysis</strong>
+              <span class="directory-description">Find the sales volume that covers your costs and explore your profit targets.</span>
+              <span class="directory-footer">Interactive calculator <span aria-hidden="true">→</span></span>
+            </a>
+          </div>
+          <div class="hub-note"><span class="hub-note-dot"></span> Your working space is private. Financial report files are processed locally in your browser.</div>
+        </section>
+
+        <section class="swot-section" id="swot" aria-labelledby="swot-title">
+          <div class="swot-intro">
+            <div>
+              <div class="eyebrow"><span class="eyebrow-line"></span> BUSINESS PLANNING · STRATEGY</div>
+              <h2 id="swot-title" class="swot-title">Explore your idea <span>from every angle</span></h2>
+              <p class="intro-copy">Share a little context to create a practical SWOT starting point for your business idea.</p>
+            </div>
+            <span class="swot-label"><span aria-hidden="true">◈</span> SWOT ANALYSIS</span>
+          </div>
+
+          <div class="swot-workspace">
+            <form class="swot-form" id="swot-form">
+              <div class="card-heading">
+                <div>
+                  <span class="section-kicker">01 — YOUR BUSINESS IDEA</span>
+                  <h2>Start with the basics</h2>
+                </div>
+                <span class="local-only"><span></span> STAYS IN YOUR BROWSER</span>
+              </div>
+
+              <label class="field swot-idea-field" for="business-idea">
+                <span class="field-label">What is your business idea? <span class="required-mark" aria-hidden="true">*</span></span>
+                <span class="field-hint">Describe the product or service and the need it addresses.</span>
+                <textarea id="business-idea" name="business-idea" rows="3" maxlength="500" placeholder="For example: a subscription meal service that helps busy families cook healthy dinners in under 20 minutes." required></textarea>
+              </label>
+
+              <div class="swot-input-grid">
+                <label class="field" for="target-customer">
+                  <span class="field-label">Who is your target customer?</span>
+                  <span class="field-hint">A specific group helps focus the analysis.</span>
+                  <input class="text-input" id="target-customer" name="target-customer" maxlength="160" placeholder="e.g., busy families in urban areas">
+                </label>
+                <label class="field" for="idea-advantage">
+                  <span class="field-label">What could set it apart?</span>
+                  <span class="field-hint">Your differentiator, expertise, or advantage.</span>
+                  <input class="text-input" id="idea-advantage" name="idea-advantage" maxlength="200" placeholder="e.g., locally sourced menus">
+                </label>
+                <label class="field swot-challenge-field" for="idea-challenge">
+                  <span class="field-label">What is your biggest concern?</span>
+                  <span class="field-hint">An uncertainty or obstacle you already see.</span>
+                  <input class="text-input" id="idea-challenge" name="idea-challenge" maxlength="200" placeholder="e.g., keeping delivery costs manageable">
+                </label>
+              </div>
+              <div class="swot-form-footer">
+                <p class="swot-privacy-note"><span aria-hidden="true">ⓘ</span> This tool uses your answers and common SWOT prompts. It does not use AI or market research.</p>
+                <button class="generate-button" type="submit">Build my SWOT <span aria-hidden="true">↗</span></button>
+              </div>
+              <div class="validation-message" id="swot-validation" role="alert" hidden></div>
+            </form>
+
+            <section class="swot-results" id="swot-results" aria-labelledby="swot-results-title" hidden>
+              <div class="swot-results-heading">
+                <div>
+                  <span class="section-kicker">02 — YOUR STRATEGIC SNAPSHOT</span>
+                  <h2 id="swot-results-title" tabindex="-1">A first look at your idea</h2>
+                </div>
+                <span class="draft-badge">STARTING POINT</span>
+              </div>
+              <p class="swot-results-intro" id="swot-results-intro"></p>
+              <div class="swot-grid" aria-live="polite">
+                <article class="swot-card strengths">
+                  <div class="swot-card-heading"><span class="swot-letter">S</span><div><h3>Strengths</h3><span>INTERNAL · HELPFUL</span></div></div>
+                  <ul id="swot-strengths"></ul>
+                </article>
+                <article class="swot-card weaknesses">
+                  <div class="swot-card-heading"><span class="swot-letter">W</span><div><h3>Weaknesses</h3><span>INTERNAL · CHALLENGING</span></div></div>
+                  <ul id="swot-weaknesses"></ul>
+                </article>
+                <article class="swot-card opportunities">
+                  <div class="swot-card-heading"><span class="swot-letter">O</span><div><h3>Opportunities</h3><span>EXTERNAL · HELPFUL</span></div></div>
+                  <ul id="swot-opportunities"></ul>
+                </article>
+                <article class="swot-card threats">
+                  <div class="swot-card-heading"><span class="swot-letter">T</span><div><h3>Threats</h3><span>EXTERNAL · CHALLENGING</span></div></div>
+                  <ul id="swot-threats"></ul>
+                </article>
+              </div>
+              <p class="swot-caveat"><span aria-hidden="true">ⓘ</span> Treat these as hypotheses to validate with customers and market research—not confirmed facts about your market.</p>
+            </section>
+          </div>
+        </section>
+
+        <section class="dupont-section" id="dupont" aria-labelledby="dupont-title">
+          <div class="dupont-intro">
+            <div>
+              <div class="eyebrow"><span class="eyebrow-line"></span> FINANCE · PROFITABILITY</div>
+              <h2 id="dupont-title">Understand your <span>return on equity</span></h2>
+              <p class="intro-copy">Use your QuickBooks reports to see how profitability, asset use, and leverage combine to drive ROE.</p>
+            </div>
+            <span class="swot-label"><span aria-hidden="true">∑</span> DUPONT ANALYSIS</span>
+          </div>
+
+          <div class="dupont-card">
+            <div class="card-heading">
+              <div>
+                <span class="section-kicker">01 — IMPORT YOUR REPORTS</span>
+                <h3>Choose three QBO CSV exports</h3>
+              </div>
+              <span class="local-only"><span></span> PROCESSED IN YOUR BROWSER</span>
+            </div>
+            <p class="dupont-help">Export a Profit and Loss for one period and Balance Sheets as of the period start and end. Use accrual-basis reports for a consistent analysis.</p>
+
+            <form id="dupont-form" class="dupont-form">
+              <div class="dupont-upload-grid">
+                <label class="upload-field" for="profit-loss-file">
+                  <span class="upload-step">01</span>
+                  <span class="upload-label">Profit and Loss</span>
+                  <span class="upload-hint">One reporting period · CSV</span>
+                  <input id="profit-loss-file" name="profit-loss-file" type="file" accept=".csv,text/csv" required>
+                  <span class="file-name" id="profit-loss-name">Choose a CSV file</span>
+                </label>
+                <label class="upload-field" for="beginning-balance-file">
+                  <span class="upload-step">02</span>
+                  <span class="upload-label">Beginning Balance Sheet</span>
+                  <span class="upload-hint">As of the period start · CSV</span>
+                  <input id="beginning-balance-file" name="beginning-balance-file" type="file" accept=".csv,text/csv" required>
+                  <span class="file-name" id="beginning-balance-name">Choose a CSV file</span>
+                </label>
+                <label class="upload-field" for="ending-balance-file">
+                  <span class="upload-step">03</span>
+                  <span class="upload-label">Ending Balance Sheet</span>
+                  <span class="upload-hint">As of the period end · CSV</span>
+                  <input id="ending-balance-file" name="ending-balance-file" type="file" accept=".csv,text/csv" required>
+                  <span class="file-name" id="ending-balance-name">Choose a CSV file</span>
+                </label>
+              </div>
+              <div class="dupont-period">
+                <label class="field" for="period-start">
+                  <span class="field-label">Profit and Loss period starts</span>
+                  <input class="text-input" id="period-start" name="period-start" type="date" required>
+                </label>
+                <label class="field" for="period-end">
+                  <span class="field-label">Profit and Loss period ends</span>
+                  <input class="text-input" id="period-end" name="period-end" type="date" required>
+                </label>
+              </div>
+              <section class="dupont-review" id="dupont-review" aria-labelledby="dupont-review-title" hidden>
+                <div class="dupont-review-heading">
+                  <div>
+                    <span class="section-kicker">02 — VERIFY THE IMPORT</span>
+                    <h3 id="dupont-review-title">Review your report totals</h3>
+                  </div>
+                  <span class="review-status" id="dupont-review-status" role="status">Reading reports…</span>
+                </div>
+                <p class="dupont-review-help">Detected values are editable. Check them against your QBO reports before calculating.</p>
+                <div class="dupont-review-grid">
+                  <label class="review-field" for="dupont-net-income">
+                    <span>Net income</span>
+                    <input id="dupont-net-income" name="net-income" type="number" step="any" inputmode="decimal" placeholder="Enter net income">
+                    <small id="dupont-net-income-source">Waiting for Profit and Loss</small>
+                  </label>
+                  <label class="review-field" for="dupont-revenue">
+                    <span>Total income / revenue</span>
+                    <input id="dupont-revenue" name="revenue" type="number" step="any" inputmode="decimal" placeholder="Enter revenue">
+                    <small id="dupont-revenue-source">Waiting for Profit and Loss</small>
+                  </label>
+                  <label class="review-field" for="dupont-beginning-assets">
+                    <span>Beginning total assets</span>
+                    <input id="dupont-beginning-assets" name="beginning-assets" type="number" step="any" inputmode="decimal" placeholder="Enter beginning assets">
+                    <small id="dupont-beginning-assets-source">Waiting for beginning Balance Sheet</small>
+                  </label>
+                  <label class="review-field" for="dupont-beginning-equity">
+                    <span>Beginning total equity</span>
+                    <input id="dupont-beginning-equity" name="beginning-equity" type="number" step="any" inputmode="decimal" placeholder="Enter beginning equity">
+                    <small id="dupont-beginning-equity-source">Waiting for beginning Balance Sheet</small>
+                  </label>
+                  <label class="review-field" for="dupont-ending-assets">
+                    <span>Ending total assets</span>
+                    <input id="dupont-ending-assets" name="ending-assets" type="number" step="any" inputmode="decimal" placeholder="Enter ending assets">
+                    <small id="dupont-ending-assets-source">Waiting for ending Balance Sheet</small>
+                  </label>
+                  <label class="review-field" for="dupont-ending-equity">
+                    <span>Ending total equity</span>
+                    <input id="dupont-ending-equity" name="ending-equity" type="number" step="any" inputmode="decimal" placeholder="Enter ending equity">
+                    <small id="dupont-ending-equity-source">Waiting for ending Balance Sheet</small>
+                  </label>
+                </div>
+              </section>
+              <div class="dupont-form-footer">
+                <p class="dupont-privacy"><span aria-hidden="true">ⓘ</span> Your CSV files stay on your device. They are not uploaded or saved.</p>
+                <button class="generate-button" type="submit">Calculate DuPont ROE <span aria-hidden="true">↗</span></button>
+              </div>
+              <div class="validation-message" id="dupont-validation" role="alert" hidden></div>
+            </form>
+
+            <details class="dupont-guide">
+              <summary>How to export the reports from QuickBooks Online</summary>
+              <ol>
+                <li>Set the same reporting basis (accrual recommended) and currency for all reports.</li>
+                <li>Export a Profit and Loss for the analysis period, then export a Balance Sheet as of its start date.</li>
+                <li>Export another Balance Sheet as of its end date. Save each report as a CSV.</li>
+              </ol>
+              <p>The calculator looks for standard Net Income, Total Income/Revenue, Total Assets, and Total Equity rows. It selects the last numeric amount on a matched row; review or correct every detected total before calculating.</p>
+            </details>
+          </div>
+
+          <section class="dupont-results" id="dupont-results" aria-labelledby="dupont-results-title" hidden>
+            <div class="dupont-results-heading">
+              <div>
+              <span class="section-kicker">03 — THE DUPONT BREAKDOWN</span>
+                <h3 id="dupont-results-title" tabindex="-1">Your return on equity</h3>
+              </div>
+              <span class="draft-badge" id="dupont-period-label"></span>
+            </div>
+            <div class="dupont-metrics" aria-live="polite">
+              <article class="dupont-metric roe-metric"><span>RETURN ON EQUITY</span><strong id="dupont-roe">—</strong><small>Net income ÷ average equity</small></article>
+              <article class="dupont-metric"><span>NET PROFIT MARGIN</span><strong id="dupont-margin">—</strong><small>Net income ÷ revenue</small></article>
+              <article class="dupont-metric"><span>ASSET TURNOVER</span><strong id="dupont-turnover">—</strong><small>Revenue ÷ average assets</small></article>
+              <article class="dupont-metric"><span>EQUITY MULTIPLIER</span><strong id="dupont-multiplier">—</strong><small>Average assets ÷ average equity</small></article>
+            </div>
+            <div class="dupont-equation" aria-label="Return on equity equals net profit margin multiplied by asset turnover multiplied by equity multiplier">
+              <span>NET PROFIT MARGIN</span><strong id="equation-margin">—</strong><i>×</i>
+              <span>ASSET TURNOVER</span><strong id="equation-turnover">—</strong><i>×</i>
+              <span>EQUITY MULTIPLIER</span><strong id="equation-multiplier">—</strong><i>=</i>
+              <strong class="equation-roe" id="equation-roe">—</strong>
+            </div>
+            <div class="dupont-input-summary">
+              <span>NET INCOME <strong id="summary-net-income">—</strong></span>
+              <span>REVENUE <strong id="summary-revenue">—</strong></span>
+              <span>AVERAGE ASSETS <strong id="summary-assets">—</strong></span>
+              <span>AVERAGE EQUITY <strong id="summary-equity">—</strong></span>
+            </div>
+            <p class="dupont-caveat"><span aria-hidden="true">ⓘ</span> Three-step DuPont analysis is a financial snapshot, not investment, tax, or accounting advice. Review the mapped totals and consult a qualified professional for important decisions.</p>
+          </section>
+        </section>
+
+        <section class="page-intro" aria-labelledby="page-title">
+          <div>
+            <div class="eyebrow"><span class="eyebrow-line"></span> FINANCE · UNIT ECONOMICS</div>
+            <h2 id="page-title" class="finance-title">Break-even <span>analysis</span></h2>
+            <p class="intro-copy">Find the sales volume where your business stops losing money and starts earning it.</p>
+          </div>
+          <div class="tool-meta">
+            <span class="meta-icon" aria-hidden="true">◷</span>
+            <span><strong>5 min</strong><small>to explore</small></span>
+            <span class="meta-divider"></span>
+            <span><strong>Interactive</strong><small>finance tool</small></span>
+          </div>
+        </section>
+
+        <section class="workspace-grid" id="tool" aria-label="Break-even analysis tool">
+          <div class="calculator-card">
+            <div class="card-heading">
+              <div>
+                <span class="section-kicker">01 — YOUR ASSUMPTIONS</span>
+                <h2>Set the numbers</h2>
+              </div>
+              <button class="reset-button" type="button" id="reset-button"><span aria-hidden="true">↺</span> Reset</button>
+            </div>
+
+            <div class="input-grid">
+              <label class="field" for="fixed-costs">
+                <span class="field-label">Fixed costs <span class="info-dot" title="Costs that stay the same regardless of how much you sell, such as rent or salaries.">i</span></span>
+                <span class="field-hint">Monthly overhead that doesn't change with sales</span>
+                <span class="input-wrap"><span class="input-prefix" aria-hidden="true">$</span><input id="fixed-costs" name="fixed-costs" type="number" min="0" step="100" value="24000" inputmode="decimal"></span>
+              </label>
+
+              <label class="field" for="selling-price">
+                <span class="field-label">Selling price <span class="info-dot" title="The amount of revenue you earn for each unit sold.">i</span></span>
+                <span class="field-hint">Revenue earned for each unit sold</span>
+                <span class="input-wrap"><span class="input-prefix" aria-hidden="true">$</span><input id="selling-price" name="selling-price" type="number" min="0" step="1" value="80" inputmode="decimal"></span>
+                <span class="input-suffix">per unit</span>
+              </label>
+
+              <label class="field" for="variable-cost">
+                <span class="field-label">Variable cost <span class="info-dot" title="A cost that increases with each unit you make or sell, such as materials or shipping.">i</span></span>
+                <span class="field-hint">Cost to make or deliver each unit</span>
+                <span class="input-wrap"><span class="input-prefix" aria-hidden="true">$</span><input id="variable-cost" name="variable-cost" type="number" min="0" step="1" value="32" inputmode="decimal"></span>
+                <span class="input-suffix">per unit</span>
+              </label>
+
+              <label class="field" for="planned-sales">
+                <span class="field-label">Planned sales volume</span>
+                <span class="field-hint">Units you expect to sell this month</span>
+                <span class="input-wrap"><input id="planned-sales" name="planned-sales" type="number" min="0" step="100" value="700" inputmode="numeric"><span class="input-suffix inside">units</span></span>
+              </label>
+
+              <label class="field target-field" for="target-profit">
+                <span class="field-label">Target monthly profit <span class="optional-tag">OPTIONAL</span></span>
+                <span class="field-hint">See how many units it takes to hit your goal</span>
+                <span class="input-wrap"><span class="input-prefix" aria-hidden="true">$</span><input id="target-profit" name="target-profit" type="number" min="0" step="100" value="12000" inputmode="decimal"></span>
+              </label>
+            </div>
+
+            <div class="validation-message" id="validation-message" role="alert" hidden></div>
+
+            <div class="results-heading">
+              <div>
+                <span class="section-kicker">02 — THE BREAK-EVEN POINT</span>
+                <h2>Your results</h2>
+              </div>
+              <span class="live-badge"><span></span> LIVE</span>
+            </div>
+
+            <div class="break-even-result">
+              <div class="result-label">YOU BREAK EVEN AT</div>
+              <div class="result-value"><span id="break-even-units">500</span><span class="result-unit">units / month</span></div>
+              <div class="result-subtitle">That's <strong id="break-even-revenue">$40,000</strong> in monthly sales</div>
+              <div class="volume-track" role="img" id="volume-track" aria-label="Planned sales are above the break-even point">
+                <div class="track-fill" id="track-fill"></div>
+                <div class="track-marker" id="track-marker"><span>BREAK-EVEN</span></div>
+                <div class="track-current" id="track-current"><span class="current-dot"></span><span>YOUR PLAN</span></div>
+              </div>
+              <div class="track-labels"><span>0 units</span><span id="track-max">1,000 units</span></div>
+              <div class="status-line" id="status-line"><span class="status-icon" aria-hidden="true">↗</span><span>Your plan is <strong>200 units above</strong> break-even.</span></div>
+            </div>
+
+            <div class="metric-grid" aria-live="polite">
+              <div class="metric-card">
+                <span class="metric-label">Contribution margin</span>
+                <strong id="contribution-margin">$48 <small>/ unit</small></strong>
+                <span class="metric-foot">Price minus variable cost</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-label">Margin percentage</span>
+                <strong id="margin-percent">60.0%</strong>
+                <span class="metric-foot">Contribution as % of price</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-label">Profit at planned sales</span>
+                <strong id="planned-profit" class="positive">$9,600</strong>
+                <span class="metric-foot">Before tax and financing</span>
+              </div>
+              <div class="metric-card target-metric">
+                <span class="metric-label">Units for target profit</span>
+                <strong id="target-units">750 <small>units</small></strong>
+                <span class="metric-foot">To earn $12,000 / month</span>
+              </div>
+            </div>
+
+            <p class="disclaimer"><span aria-hidden="true">ⓘ</span> A planning estimate, not financial advice. Results assume a constant price and variable cost per unit.</p>
+          </div>
+
+          <aside class="insight-column">
+            <article class="insight-card takeaway-card">
+              <div class="insight-topline"><span class="insight-icon" aria-hidden="true">✳</span><span class="section-kicker">QUICK TAKEAWAY</span></div>
+              <h3 id="takeaway-title">Room to grow.</h3>
+              <p id="takeaway-copy">Your planned volume clears break-even. Each additional unit adds $48 toward profit.</p>
+              <div class="takeaway-divider"></div>
+              <div class="takeaway-stat"><span>Safety margin</span><strong id="safety-margin">28.6%</strong></div>
+              <div class="takeaway-stat"><span>Profit at plan</span><strong id="takeaway-profit">$9,600</strong></div>
+            </article>
+
+            <article class="insight-card formula-card">
+              <span class="section-kicker">THE LOGIC</span>
+              <h3>One useful formula.</h3>
+              <div class="formula-box">
+                <span class="formula-label">BREAK-EVEN UNITS</span>
+                <span class="formula-equation">Fixed costs <i>÷</i><br><span>(Price − variable cost)</span></span>
+              </div>
+              <p>Every unit sold contributes something toward covering your fixed costs. Once those are covered, contribution becomes profit.</p>
+              <a class="learn-link" href="#concepts">Explore the concept <span aria-hidden="true">↗</span></a>
+            </article>
+
+            <div class="next-tool" id="coming-soon">
+              <span class="next-icon" aria-hidden="true">＋</span>
+              <div><strong>More tools, in the making</strong><span>Marketing · Operations · Strategy</span></div>
+            </div>
+          </aside>
+        </section>
+
+        <section class="concept-section" id="concepts">
+          <div class="concept-heading">
+            <div><span class="section-kicker">A LITTLE CONTEXT</span><h2>Make the number useful.</h2></div>
+            <p>Break-even is a starting point for better questions, not a finish line.</p>
+          </div>
+          <div class="concept-grid">
+            <article class="concept-card"><span class="concept-number">01</span><h3>What can you influence?</h3><p>Pricing, sourcing, and process improvements all change how much each sale contributes to covering overhead.</p></article>
+            <article class="concept-card"><span class="concept-number">02</span><h3>How reliable are the inputs?</h3><p>Use realistic costs and sales assumptions. Small changes can move the break-even point more than you expect.</p></article>
+            <article class="concept-card"><span class="concept-number">03</span><h3>What's your cushion?</h3><p>The margin of safety shows how much sales can fall before you reach break-even. More cushion means less risk.</p></article>
+          </div>
+        </section>
+
+        <footer class="page-footer"><a class="footer-brand" href="#">fieldnotes <span>/ MBA toolkit</span></a><span>Built for learning by doing.</span></footer>
+      </main>
+    </div>
+  </body>
+</html>
