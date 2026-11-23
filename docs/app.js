@@ -581,7 +581,8 @@ for (const input of document.querySelectorAll(".segment-row input, .segment-row 
   input.addEventListener("change", updateSegmentation);
 }
 
-document.querySelector("#segment-reset").addEventListener("click", () => {
+document.querySelector("#segment-reset").addEventListener("click", (event) => {
+  event.preventDefault();
   const defaults = [
     ["Busy professionals", "Save time on meal planning", 12000, "4", 600, 180, "3"],
     ["Health-conscious families", "Healthy dinners without effort", 18000, "3", 720, 240, "4"],
@@ -597,6 +598,9 @@ document.querySelector("#segment-reset").addEventListener("click", () => {
     row.querySelector(".segment-cac").value = String(cac);
     row.querySelector(".segment-fit").value = fit;
   });
+  for (const input of document.querySelectorAll(".segment-row input, .segment-row select")) {
+    input.dispatchEvent(new Event("change", { bubbles: true }));
+  }
   updateSegmentation();
 });
 
